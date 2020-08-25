@@ -19,9 +19,9 @@ if (process.env.DYNO) {
 // with a user object, which will be set at `req.user` in route handlers after
 // authentication.
 passport.use(new Strategy({
-    consumerKey: process.env['TWITTER_CONSUMER_KEY'],
-    consumerSecret: process.env['TWITTER_CONSUMER_SECRET'],
-    callbackURL: '/oauth/callback',
+    consumerKey: process.env['CONSUMER_KEY'],
+    consumerSecret: process.env['CONSUMER_SECRET'],
+    callbackURL: '/auth/twitter/callback',
     proxy: trustProxy
   },
   function(token, tokenSecret, profile, cb) {
@@ -30,6 +30,26 @@ passport.use(new Strategy({
     // be associated with a user record in the application's database, which
     // allows for account linking and authentication with other identity
     // providers.
+
+    var Twit = require('twit')
+
+    var T = new Twit({
+      consumer_key:         process.env['CONSUMER_KEY'], //get this from developer.twitter.com where your app info is
+      consumer_secret:      process.env['CONSUMER_SECRET'], //get this from developer.twitter.com where your app info is
+      access_token:         token,
+      access_token_secret:  tokenSecret,
+      timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
+      strictSSL:            true,     // optional - requires SSL certificates to be valid.
+    })
+  
+    //
+    //  tweet 'hello world!'
+    //
+    // T.post('statuses/update', { status: 'hello world!' }, function(err, 
+    // data, response) {
+    //   console.log(data)
+    // })
+
     return cb(null, profile);
   }));
 
@@ -89,7 +109,7 @@ app.get('/login',
 app.get('/login/twitter',
   passport.authenticate('twitter'));
 
-app.get('/oauth/callback',
+app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
@@ -98,6 +118,7 @@ app.get('/oauth/callback',
 app.get('/profile',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
+    console.log(req.user)
     res.render('profile', { user: req.user });
   });
 
