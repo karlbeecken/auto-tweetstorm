@@ -44,7 +44,7 @@ passport.use(
       // });
 
       db.get("accounts")
-        .push({ id: profile.id, user: profile.username, token, tokenSecret })
+        .push({ id: profile.id, user: profile.username, token, tokenSecret, used: false })
         .write();
 
       const newAccounts = db.get("accounts").uniqBy("user").value();
