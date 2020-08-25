@@ -23,7 +23,7 @@ passport.use(
     {
       consumerKey: process.env["CONSUMER_KEY"],
       consumerSecret: process.env["CONSUMER_SECRET"],
-      callbackURL: "/auth/twitter/callback",
+      callbackURL: process.env["BASEURL"] + "/auth/twitter/callback",
     },
     function (token, tokenSecret, profile, cb) {
       // In this example, the user's Twitter profile is supplied as the user
