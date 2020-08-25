@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git://github.com/karlbeecken/auto-tweetstorm"
   },
+  "scripts": {
+    "start": "nodemon --ignore '*.json' server.js"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "connect-ensure-login": "^0.1.1",
@@ -17,9 +20,13 @@
     "ejs": "^2.6.2",
     "express": "^4.17.1",
     "express-session": "^1.16.1",
+    "lowdb": "^1.0.0",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-twitter": "^1.0.4",
     "twit": "^2.2.11"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
