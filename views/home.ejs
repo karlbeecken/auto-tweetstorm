@@ -1,5 +1,5 @@
 <% if (!user) { %>
-  <p>Welcome! Please <a href="/login">log in</a>.</p>
+  <p>Willkommen! Bitte <a href="/login/twitter">registriere</a> dich hier mit deinem OG-Twitteraccount.</p>
 <% } else { %>
-  <p>Hello, <%= user.username %>. View your <a href="/profile">profile</a> or <a href="/logout">logout</a>.</p>
+  <p>Du bist jetzt mit dem Account @<%= user.username %> für das System registriert! Du kannst dich hier <a href="/logout">ausloggen</a>. (Beendet NICHT die Verbindung mit dem System!)</p>
 <% } %>
