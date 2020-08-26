@@ -44,7 +44,13 @@ passport.use(
       // });
 
       db.get("accounts")
-        .push({ id: profile.id, user: profile.username, token, tokenSecret, used: false })
+        .push({
+          id: profile.id,
+          user: profile.username,
+          token,
+          tokenSecret,
+          used: false,
+        })
         .write();
 
       const newAccounts = db.get("accounts").uniqBy("user").value();
@@ -142,5 +148,15 @@ app.get("/logout", function (req, res) {
     res.redirect("/");
   });
 });
+
+app.get(
+  "/unregister",
+  require("connect-ensure-login").ensureLoggedIn(),
+  (req, res) => {
+    console.log(req.user.username);
+    db.get("accounts").remove({ user: req.user.username }).write();
+    res.redirect("/logout");
+  }
+);
 
 app.listen(process.env["PORT"] || 8080);
